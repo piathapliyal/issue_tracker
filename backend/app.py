@@ -52,7 +52,18 @@ def list_issues():
     status = request.args.get("status", default=None, type=str)
     priority = request.args.get("priority", default=None, type=str)
     assignee = request.args.get("assignee", default=None, type=str)
-    
+    sort_by = request.args.get("sortBy", default=None, type=str) 
+    sort_dir = request.args.get("sortDir", default="asc", type=str)
+
+#pagination
+
+    try:
+        page = int(request.args.get("page", 1))
+        page_size = int(request.args.get("pageSize", 10))
+    except ValueError:
+        page, page_size = 1, 10
+    if page < 1: page = 1
+    if page_size < 1: page_size = 10
 
 
     items = ISSUES
@@ -67,10 +78,29 @@ def list_issues():
     if assignee:
         items = [i for i in items if i.get("assignee") and assignee.lower() in i["assignee"].lower()]
 
+    total = len(items)
+
+    if sort_by:
+        reverse = (sort_dir == "desc")
+        items = sorted(items, key=lambda x: x.get(sort_by) or "", reverse=reverse)
+
+    start = (page - 1) * page_size
+    end = start + page_size
+    page_items = items[start:end]
+
+    return jsonify({
+        "data": page_items,
+        "meta": {
+            "total": total,
+            "page": page,
+            "pageSize": page_size,
+            "totalPages": (total + page_size - 1) // page_size
+        }
+    })
 
    
 
-    return jsonify(items)
+    
 
 
 @app.route("/issues/<int:iid>", methods=["GET"])
@@ -110,7 +140,7 @@ def upd(iid):
                 i[k] = body[k]
             i["updated_at"] = current_time()
             return jsonify(i)
-    return {"oops": "no such issue"}, 404
+    return {"err": "no such issue"}, 404
 
 
 if __name__ == "__main__":
