@@ -33,3 +33,17 @@ python -m venv venv
 venv\Scripts\activate   # On Windows
 pip install -r requirements.txt
 python app.py
+
+
+
+Runs on: http://127.0.0.1:5000
+
+
+
+Frontend
+cd frontend
+npm install
+ng serve --open
+
+
+👉 Runs on: http://localhost:4200
