@@ -46,3 +46,17 @@ npm install
 ng serve --open
 
 Runs on: http://localhost:4200
+
+
+
+API Endpoints
+
+GET /health → Health check
+
+GET /issues → List issues with filters/search/sort/pagination
+
+GET /issues/:id → Get single issue
+
+POST /issues → Create new issue
+
+PUT /issues/:id → Update an issue
