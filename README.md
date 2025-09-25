@@ -27,7 +27,7 @@ Supports **viewing, searching, filtering, sorting, pagination, creating, and upd
 ## ▶️ Getting Started
 
 ### Backend
-```bash
+
 cd backend
 python -m venv venv
 venv\Scripts\activate   # On Windows
@@ -45,5 +45,4 @@ cd frontend
 npm install
 ng serve --open
 
-
-👉 Runs on: http://localhost:4200
+Runs on: http://localhost:4200
